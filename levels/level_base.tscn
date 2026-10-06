@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dwfudb5u3ijls"]
+
+[ext_resource type="Script" uid="uid://4hj3i6ydvi5m" path="res://levels/level_base.gd" id="1_ep22m"]
+[ext_resource type="TileSet" uid="uid://dhxw3f8l2saqn" path="res://assets/tilesets/tiles_world.tres" id="1_hk6b7"]
+[ext_resource type="TileSet" uid="uid://dn505hopwb4de" path="res://assets/tilesets/tiles_items.tres" id="3_ts4ud"]
+[ext_resource type="TileSet" uid="uid://blhd0ogpuydej" path="res://assets/tilesets/tiles_spikes.tres" id="4_jd1fy"]
+[ext_resource type="PackedScene" uid="uid://bqmcg83s02mvu" path="res://player/player.tscn" id="5_cnvg6"]
+[ext_resource type="Texture2D" uid="uid://50io455eskre" path="res://assets/environment/back.png" id="6_ts4ud"]
+[ext_resource type="Texture2D" uid="uid://b33vv5523s2t2" path="res://assets/environment/middle.png" id="7_jd1fy"]
+
+[node name="LevelBase" type="Node2D" unique_id=504811842]
+script = ExtResource("1_ep22m")
+
+[node name="World" type="TileMap" parent="." unique_id=1832133842]
+tile_set = ExtResource("1_hk6b7")
+format = 2
+
+[node name="Items" type="TileMap" parent="." unique_id=1264435204]
+tile_set = ExtResource("3_ts4ud")
+format = 2
+
+[node name="Danger" type="TileMap" parent="." unique_id=1306976187]
+tile_set = ExtResource("4_jd1fy")
+format = 2
+
+[node name="Player" parent="." unique_id=299541064 instance=ExtResource("5_cnvg6")]
+visible = false
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1002093738]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=706638839]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1226681157]
+motion_scale = Vector2(0.2, 1)
+motion_mirroring = Vector2(576, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=1218459762]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("6_ts4ud")
+centered = false
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1985712017]
+motion_scale = Vector2(0.6, 1)
+motion_mirroring = Vector2(880, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2" unique_id=1472103296]
+texture_repeat = 3
+position = Vector2(-45, 138)
+texture = ExtResource("7_jd1fy")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 880, 368)

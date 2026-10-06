@@ -1,0 +1,145 @@
+[gd_scene format=3 uid="uid://bqmcg83s02mvu"]
+
+[ext_resource type="Texture2D" uid="uid://cevb6x0snn2ca" path="res://assets/player_sheet.png" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://c1lw6pb0r7o3h" path="res://player/player.gd" id="1_rkbax"]
+
+[sub_resource type="Animation" id="Animation_rkbax"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_oul6g"]
+resource_name = "hurt"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [5, 6]
+}
+
+[sub_resource type="Animation" id="Animation_g1dw6"]
+resource_name = "idle"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [7, 8, 9, 10]
+}
+
+[sub_resource type="Animation" id="Animation_qjkh3"]
+resource_name = "jump_down"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [12]
+}
+
+[sub_resource type="Animation" id="Animation_g6k8r"]
+resource_name = "jump_up"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [11]
+}
+
+[sub_resource type="Animation" id="Animation_yw30f"]
+resource_name = "run"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.19999999, 0.3, 0.39999998, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [13, 14, 15, 16, 17, 18]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qjkh3"]
+_data = {
+&"RESET": SubResource("Animation_rkbax"),
+&"hurt": SubResource("Animation_oul6g"),
+&"idle": SubResource("Animation_g1dw6"),
+&"jump_down": SubResource("Animation_qjkh3"),
+&"jump_up": SubResource("Animation_g6k8r"),
+&"run": SubResource("Animation_yw30f")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jav7u"]
+size = Vector2(12, 20)
+
+[node name="Player" type="CharacterBody2D" unique_id=299541064]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_rkbax")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1447285244]
+texture = ExtResource("1_oul6g")
+offset = Vector2(0, -16)
+hframes = 19
+frame = 7
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1451552331]
+libraries/ = SubResource("AnimationLibrary_qjkh3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1387856149]
+position = Vector2(0, -11)
+shape = SubResource("RectangleShape2D_jav7u")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=740747450]
+zoom = Vector2(2.5, 2.5)
+limit_left = 0
+limit_top = 0
+
+[node name="HurtTimer" type="Timer" parent="." unique_id=2119828173]
+wait_time = 0.5
+one_shot = true
+
+[connection signal="timeout" from="HurtTimer" to="." method="_on_hurt_timer_timeout"]
