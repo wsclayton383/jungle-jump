@@ -15,7 +15,7 @@ enum {
 @export var run_speed = 150
 @export var jump_speed = -300
 
-var life = 3:
+var life = 5:
 	set = set_life
 
 var state = IDLE
@@ -35,6 +35,12 @@ func _physics_process(delta):
 		var collision = get_slide_collision(i)
 		if collision.get_collider().is_in_group("danger"):
 			hurt()
+		if collision.get_collider().is_in_group("enemies"):
+			if position.y < collision.get_collider().position.y:
+				collision.get_collider().take_damage()
+				velocity.y = -200
+			else:
+				hurt()
 	if state == JUMP and is_on_floor():
 		change_state(IDLE)
 	if state == JUMP and velocity.y > 0:
@@ -57,18 +63,17 @@ func change_state(new_state):
 			$AnimationPlayer.play("run")
 		JUMP:
 			$AnimationPlayer.play("jump_up")
-		DEAD:
-			hide()
 		HURT:
 			$AnimationPlayer.play("hurt")
 			velocity.y = -200
 			velocity.x = -100 * sign(velocity.x)
-			life -= 1
 			$HurtTimer.start()
+			life -= 1
 			await $HurtTimer.timeout
 			change_state(IDLE)
 		DEAD:
 			velocity = Vector2.ZERO
+			await $HurtTimer.timeout
 			died.emit()
 			hide()
 
@@ -106,7 +111,7 @@ func reset(_position):
 	position = _position
 	show()
 	change_state(IDLE)
-	life = 3
+	life = 5
 
 
 func hurt():
